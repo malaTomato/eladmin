@@ -36,6 +36,9 @@ import java.util.*;
 @Slf4j
 public class OnlineUserService {
 
+    private static Map<String,Object> map = new HashMap<>();
+
+
     private final SecurityProperties properties;
     private final RedisUtils redisUtils;
 
@@ -61,7 +64,7 @@ public class OnlineUserService {
         } catch (Exception e) {
             log.error(e.getMessage(),e);
         }
-        redisUtils.set(properties.getOnlineKey() + token, onlineUserDto, properties.getTokenValidityInSeconds()/1000);
+        map.put(properties.getOnlineKey()+ token,onlineUserDto);
     }
 
     /**
@@ -116,7 +119,8 @@ public class OnlineUserService {
      */
     public void logout(String token) {
         String key = properties.getOnlineKey() + token;
-        redisUtils.del(key);
+//        redisUtils.del(key);
+        map.remove(key);
     }
 
     /**
@@ -146,7 +150,7 @@ public class OnlineUserService {
      * @return /
      */
     public OnlineUserDto getOne(String key) {
-        return (OnlineUserDto)redisUtils.get(key);
+        return (OnlineUserDto) map.get(key);
     }
 
     /**

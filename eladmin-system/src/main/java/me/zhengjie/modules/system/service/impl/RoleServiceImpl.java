@@ -162,7 +162,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Cacheable(key = "'auth:' + #p0.id")
+//    @Cacheable(key = "'auth:' + #p0.id")
     public List<GrantedAuthority> mapToGrantedAuthorities(UserDto user) {
         Set<String> permissions = new HashSet<>();
         // 如果是管理员直接返回
@@ -214,10 +214,10 @@ public class RoleServiceImpl implements RoleService {
         if (CollectionUtil.isNotEmpty(users)) {
             users.forEach(item -> userCacheClean.cleanUserCache(item.getUsername()));
             Set<Long> userIds = users.stream().map(User::getId).collect(Collectors.toSet());
-            redisUtils.delByKeys(CacheKey.DATE_USER, userIds);
-            redisUtils.delByKeys(CacheKey.MENU_USER, userIds);
-            redisUtils.delByKeys(CacheKey.ROLE_AUTH, userIds);
-            redisUtils.del(CacheKey.ROLE_ID + id);
+//            redisUtils.delByKeys(CacheKey.DATE_USER, userIds);
+//            redisUtils.delByKeys(CacheKey.MENU_USER, userIds);
+//            redisUtils.delByKeys(CacheKey.ROLE_AUTH, userIds);
+//            redisUtils.del(CacheKey.ROLE_ID + id);
         }
     }
 }
